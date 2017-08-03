@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elead.ppm.project.provider.dao.ELCommonCodeRegulationDao">
+	
+	<resultMap id="BaseResultMap" type="com.elead.ppm.project.domain.entity.ELCommonCodeRegulation" >
+	    <id column="id" property="id" jdbcType="VARCHAR" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	    <result column="prefix" property="prefix" jdbcType="VARCHAR" />
+	    <result column="suffix" property="suffix" jdbcType="VARCHAR" />
+	    <result column="date_type" property="dateType" jdbcType="VARCHAR" />
+	    <result column="code" property="code" jdbcType="VARCHAR" />
+	    <result column="random_length" property="randomLength" jdbcType="TINYINT" />
+	    <result column="description" property="description" jdbcType="VARCHAR" />
+	    <result column="state" property="state" jdbcType="TINYINT" />
+	    <result column="delFlag" property="delFlag" jdbcType="TINYINT" />
+	    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+	    <result column="createtime" property="createTimestamp" jdbcType="TIMESTAMP" />
+	    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+	    <result column="updatetime" property="updateTimestamp" jdbcType="TIMESTAMP" />
+  	</resultMap>
+  	
+  	<insert id="insert" 
+  			parameterType="com.elead.ppm.project.domain.entity.ELCommonCodeRegulation" >
+    insert into common_code_regulation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="prefix != null" >
+        prefix,
+      </if>
+      <if test="suffix != null" >
+        suffix,
+      </if>
+      <if test="dateType != null" >
+        date_type,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="randomLength != null" >
+        random_length,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+       <if test="state != null" >
+        state,
+      </if>
+      <if test="delFlag != null" >
+        delFlag,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createTimestamp != null" >
+        createtime,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateTimestamp != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="prefix != null" >
+        #{prefix,jdbcType=VARCHAR},
+      </if>
+      <if test="suffix != null" >
+        #{suffix,jdbcType=VARCHAR},
+      </if>
+      <if test="dateType != null" >
+        #{dateType,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="randomLength != null" >
+        #{randomLength,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+       <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTimestamp != null" >
+        #{createTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTimestamp != null" >
+        #{updateTimestamp,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  	
+  	
+  	<update id="updateByPrimaryKeySelective" 
+  		parameterType="com.elead.ppm.project.domain.entity.ELCommonCodeRegulation" >
+  		
+	    update common_code_regulation
+	    <set >
+	      <if test="name != null" >
+	        name = #{name,jdbcType=VARCHAR},
+	      </if>
+	      <if test="prefix != null" >
+	        prefix = #{prefix,jdbcType=VARCHAR},
+	      </if>
+	      <if test="suffix != null" >
+	        suffix = #{suffix,jdbcType=VARCHAR},
+	      </if>
+	      <if test="dateType != null" >
+	        date_type = #{dateType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="code != null" >
+	        code = #{code,jdbcType=VARCHAR},
+	      </if>
+	      <if test="randomLength != null" >
+	        random_length = #{randomLength,jdbcType=TINYINT},
+	      </if>
+	      <if test="description != null" >
+	        description = #{description,jdbcType=VARCHAR},
+	      </if>
+	      <if test="state != null" >
+	        state = #{state,jdbcType=TINYINT},
+	      </if>
+	      <if test="delFlag != null" >
+	        delFlag = #{delFlag,jdbcType=TINYINT},
+	      </if>
+	      <if test="createBy != null" >
+	        create_by = #{createBy,jdbcType=VARCHAR},
+	      </if>
+	      <if test="createTimestamp != null" >
+	        createtime = #{createTimestamp,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="updateBy != null" >
+	        update_by = #{updateBy,jdbcType=VARCHAR},
+	      </if>
+	      <if test="updateTimestamp != null" >
+	        updatetime = #{updateTimestamp,jdbcType=TIMESTAMP},
+	      </if>
+	    </set>
+	    where id = #{id,jdbcType=VARCHAR}
+	    
+  	</update>
+  	<select id="getCodeRegulationById" resultType="com.elead.ppm.project.domain.entity.ELCommonCodeRegulation">
+		select * from common_code_regulation where id = #{id}  
+	</select>
+  	<!-- 根据name进行查询 -->
+  	<select id="getCommonCodeByName"
+  		parameterType="String"
+  		resultMap="BaseResultMap">
+  		select * from common_code_regulation where name =#{name} and delFlag=0
+  	</select>
+  	<!-- 根据name进行模糊查询 -->
+  	<select id="findByName"
+  		parameterType="String"
+  		resultMap="BaseResultMap">
+  		
+  		select * from common_code_regulation where name like #{name} and delFlag=0
+  		order by ${sort} ${order}
+  			limit #{startIndex},#{pageSize}
+  	</select>
+		
+  	<!-- 查询所有数据 -->
+  	<select id="findAll"
+  		resultMap="BaseResultMap">
+  		
+  		select * from common_code_regulation where  delFlag=0
+  			order by ${sort} ${order}
+  			limit #{startIndex},#{pageSize}
+  		
+  	</select>
+  	
+  	<!-- 查询总数 -->
+  	<select id="queryTotal"
+  			parameterType="String"
+  			resultType="int">
+  		
+  		select count(*) from common_code_regulation where 1=1 and delFlag=0
+  		<if test="type == 'search'">
+  			and name like #{value} 
+  		</if>
+  		
+  	</select>
+</mapper>

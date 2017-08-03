@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elead.ppm.project.provider.dao.ELCommonCommentDao">
+  <resultMap id="BaseResultMap" type="com.elead.ppm.project.domain.entity.ELCommonComment">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="owner_id" jdbcType="VARCHAR" property="ownerId" />
+    <result column="owner_type" jdbcType="VARCHAR" property="ownerType" />
+    <result column="comment_id" jdbcType="VARCHAR" property="commentId" />
+    <result column="comment_name" jdbcType="VARCHAR" property="commentName" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="comment_time" jdbcType="TIMESTAMP" property="commentTime" />
+    <result column="delFlag" jdbcType="TINYINT" property="delflag" />
+    <result column="create_by" jdbcType="VARCHAR" property="createId" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateId" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  
+  
+  <!-- 根据类型和需求id获取评论列表 -->
+   <select id="getCommentsByTypeAndOwnerId"
+  		parameterType="String"
+  		resultMap="BaseResultMap">
+		select * from common_comment where topic_type=#{ownerType} and topic_id=#{ownerId}
+   </select>
+  
+</mapper>

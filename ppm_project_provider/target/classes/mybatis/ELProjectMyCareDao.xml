@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elead.ppm.project.provider.dao.ELProjectMyCareDao">
+	<resultMap id="ELProjectMyCareMap" type="com.elead.ppm.project.domain.entity.ELProjectMyCare">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="project_id" jdbcType="VARCHAR" property="projectId" />
+		<result column="project_name" jdbcType="VARCHAR" property="projectName" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+	</resultMap>
+	
+	<select id="checkRepeat" parameterType="com.elead.ppm.project.domain.entity.ELProjectMyCare" resultType="int">
+	select count(*) from project_my_care where project_id = #{projectId} and care_type = 2
+	</select>
+	
+	
+	<!-- 收藏项目 -->
+  <insert id="collectProject" parameterType="com.elead.ppm.project.domain.entity.ELProjectMyCare" >
+    insert into project_my_care
+    	(
+    	ID,
+        project_id,
+        project_name,
+        user_id,
+        delFlag,
+        create_by,
+        createtime,
+        update_by,
+        updatetime,
+        care_type
+    	)
+    	values
+    	(
+    	#{id},
+    	#{projectId},
+    	#{projectName},
+    	#{userId},
+    	0,
+    	#{createBy},
+    	now(),
+    	#{updateBy},
+    	now(),
+    	2
+    	)   
+  </insert>
+	
+	<insert id="xxxx" parameterType="com.elead.ppm.project.domain.entity.ELProjectMyCare">
+	insert into project_my_care 
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+			  ID,
+			</if>
+			<if test="projectId != null">
+			  project_id,
+			</if>
+			<if test="projectName != null">
+			  project_name,
+			</if>
+			<if test="userId != null">
+			user_id,
+				<if test="delFlag != null" >
+			  delFlag,
+			</if>
+			<if test="createBy != null" >
+			  create_by,
+			</if>
+			<if test="createTimestamp != null" >
+			  createtime,
+			</if>
+			<if test="updateBy != null" >
+			  update_by,
+			</if>
+			<if test="updateTimestamp != null" >
+			  updatetime,
+			</if>
+			care_type
+			</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+			  #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+			  #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectName != null">
+			  #{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+			  #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="delFlag != null" >
+			  #{delFlag,jdbcType=TINYINT},
+			</if>
+			<if test="createBy != null" >
+			  #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createTimestamp != null" >
+			  #{createTimestamp,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null" >
+			  #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTimestamp != null" >
+			  #{updateTimestamp,jdbcType=TIMESTAMP},
+			</if>
+			2
+	</trim>
+	</insert>
+	
+	
+</mapper>

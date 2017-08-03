@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ppm_project</artifactId>
+        <groupId>com.elead</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ppm_project_provider</artifactId>
+    <packaging>war</packaging>
+
+    <name>ppm_project_provider</name>
+    <url>http://maven.apache.org</url>
+    <properties>
+        <start-class>com.elead.ppm.project.provider.ProjProviderApplication</start-class>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!--区分环境配置-->
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <profileActive>local</profileActive>
+
+                <!-- dubbo -->
+                <dubbo.container>logback,spring</dubbo.container>
+                <dubbo.shutdown.hook>true</dubbo.shutdown.hook>
+                <dubbo.application.name>ppm_project_provider</dubbo.application.name>
+                <dubbo.application.owner>elead</dubbo.application.owner>
+                <dubbo.registry.protocol>zookeeper</dubbo.registry.protocol>
+                <dubbo.registry.address>127.0.0.1:2181</dubbo.registry.address>
+                <dubbo.registry.client>curator</dubbo.registry.client>
+                <dubbo.registry.file>tmp/ppm_project_provider.cache</dubbo.registry.file>
+                <dubbo.protocol.dubbo.port>-1</dubbo.protocol.dubbo.port>
+                <dubbo.application.logger>slf4j</dubbo.application.logger>
+                <dubbo.logback.level>info</dubbo.logback.level>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profileActive>dev</profileActive>
+
+                <!-- dubbo -->
+                <dubbo.container>logback,spring</dubbo.container>
+                <dubbo.shutdown.hook>true</dubbo.shutdown.hook>
+                <dubbo.application.name>ppm_project_provider</dubbo.application.name>
+                <dubbo.application.owner>elead</dubbo.application.owner>
+                <dubbo.registry.protocol>zookeeper</dubbo.registry.protocol>
+                <dubbo.registry.address>127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183</dubbo.registry.address>
+                <dubbo.registry.client>curator</dubbo.registry.client>
+                <dubbo.registry.file>/data/zookeeper/ppm_project_provider.cache</dubbo.registry.file>
+                <dubbo.protocol.dubbo.port>-1</dubbo.protocol.dubbo.port>
+                <dubbo.application.logger>slf4j</dubbo.application.logger>
+                <dubbo.logback.level>error</dubbo.logback.level>
+                <dubbo.monitor.protocol>registry</dubbo.monitor.protocol>
+            </properties>
+        </profile>
+        <profile>
+			<id>devSZ</id>
+			<properties>
+				<!-- spring boot -->
+				<profileActive>prod</profileActive>
+				<app.writedb.url>jdbc:mysql://192.168.3.57:3306/ppm</app.writedb.url>
+				<app.writedb.user>root</app.writedb.user>
+				<app.writedb.pwd>123456</app.writedb.pwd>
+				
+				<app.readdb.url>jdbc:mysql://192.168.3.57:3306/ppm</app.readdb.url>
+				<app.readdb.user>root</app.readdb.user>
+				<app.readdb.pwd>123456</app.readdb.pwd>
+				<!-- dubbo -->
+				<dubbo.container>logback,spring</dubbo.container>
+				<dubbo.shutdown.hook>true</dubbo.shutdown.hook>
+				<dubbo.application.name>ppm_project_provider</dubbo.application.name>
+				<dubbo.application.owner>elead</dubbo.application.owner>
+				<dubbo.registry.protocol>zookeeper</dubbo.registry.protocol>
+				<dubbo.registry.address>192.168.3.57:2181</dubbo.registry.address>
+				<dubbo.registry.client>curator</dubbo.registry.client>
+				<dubbo.registry.file>/data/zookeeper/ppm_project_provider.cache</dubbo.registry.file>
+				<dubbo.protocol.dubbo.port>-1</dubbo.protocol.dubbo.port>
+				<dubbo.application.logger>slf4j</dubbo.application.logger>
+				<dubbo.logback.level>info</dubbo.logback.level>
+				<dubbo.monitor.protocol></dubbo.monitor.protocol>
+			</properties>
+		</profile>
+		<profile>
+			<id>sitSZ</id>
+			<properties>
+				<!-- spring boot -->
+				<profileActive>prod</profileActive>
+				<app.writedb.url>jdbc:mysql://192.168.114.129:3306/ppm</app.writedb.url>
+				<app.writedb.user>root</app.writedb.user>
+				<app.writedb.pwd>123456</app.writedb.pwd>
+				
+				<app.readdb.url>jdbc:mysql://192.168.114.129:3306/ppm</app.readdb.url>
+				<app.readdb.user>root</app.readdb.user>
+				<app.readdb.pwd>123456</app.readdb.pwd>
+				<!-- dubbo -->
+				<dubbo.container>logback,spring</dubbo.container>
+				<dubbo.shutdown.hook>true</dubbo.shutdown.hook>
+				<dubbo.application.name>ppm_project_provider</dubbo.application.name>
+				<dubbo.application.owner>elead</dubbo.application.owner>
+				<dubbo.registry.protocol>zookeeper</dubbo.registry.protocol>
+				<dubbo.registry.address>192.168.114.129:2181</dubbo.registry.address>
+				<dubbo.registry.client>curator</dubbo.registry.client>
+				<dubbo.registry.file>/data/zookeeper/ppm_project_provider.cache</dubbo.registry.file>
+				<dubbo.protocol.dubbo.port>-1</dubbo.protocol.dubbo.port>
+				<dubbo.application.logger>slf4j</dubbo.application.logger>
+				<dubbo.logback.level>info</dubbo.logback.level>
+				<dubbo.monitor.protocol></dubbo.monitor.protocol>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<!-- spring boot -->
+				<profileActive>prod</profileActive>
+				<app.writedb.url>jdbc:mysql://10.27.170.193:3306/ppm</app.writedb.url>
+				<app.writedb.user>elppm_user</app.writedb.user>
+				<app.writedb.pwd>elppm</app.writedb.pwd>
+				
+				<app.readdb.url>jdbc:mysql://10.27.170.193:3306/ppm</app.readdb.url>
+				<app.readdb.user>elppm_user</app.readdb.user>
+				<app.readdb.pwd>elppm</app.readdb.pwd>
+				<!-- dubbo -->
+				<dubbo.container>logback,spring</dubbo.container>
+				<dubbo.shutdown.hook>true</dubbo.shutdown.hook>
+				<dubbo.application.name>ppm_project_provider</dubbo.application.name>
+				<dubbo.application.owner>elead</dubbo.application.owner>
+				<dubbo.registry.protocol>zookeeper</dubbo.registry.protocol>
+				<dubbo.registry.address>10.27.170.193:2183</dubbo.registry.address>
+				<dubbo.registry.client>curator</dubbo.registry.client>
+				<dubbo.registry.file>/data/zookeeper/ppm_project_provider.cache</dubbo.registry.file>
+				<dubbo.protocol.dubbo.port>-1</dubbo.protocol.dubbo.port>
+				<dubbo.application.logger>slf4j</dubbo.application.logger>
+				<dubbo.logback.level>error</dubbo.logback.level>
+				<dubbo.monitor.protocol>registry</dubbo.monitor.protocol>
+			</properties>
+		</profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.elead</groupId>
+            <artifactId>ppm_project_domain</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.elead</groupId>
+            <artifactId>platform_common_redis</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.elead</groupId>
+            <artifactId>platform_common_service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency> 
+            <groupId>com.elead</groupId>
+            <artifactId>platform_system_domain</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-amqp</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-mail</artifactId>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+		   <groupId>org.springframework.boot</groupId>
+		   <artifactId>spring-boot-starter-tomcat</artifactId>
+		   <scope>provided</scope>
+		</dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>us.codecraft</groupId>-->
+        <!--<artifactId>webmagic-core</artifactId>-->
+        <!--<exclusions>-->
+        <!--<exclusion>-->
+        <!--<groupId>org.slf4j</groupId>-->
+        <!--<artifactId>slf4j-log4j12</artifactId>-->
+        <!--</exclusion>-->
+        <!--</exclusions>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>us.codecraft</groupId>-->
+        <!--<artifactId>webmagic-extension</artifactId>-->
+        <!--</dependency>-->
+        
+        <dependency>
+		  <groupId>com.github.pagehelper</groupId>
+		  <artifactId>pagehelper-spring-boot-starter</artifactId>
+		  <version>${pagehelper.version}</version>
+		</dependency>
+          <dependency>
+        <groupId>org.javassist</groupId>
+        <artifactId>javassist</artifactId>
+        <version>3.18.2-GA</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4.7</version>
+      </dependency>
+    <dependency>
+        <groupId>org.apache.curator</groupId>
+        <artifactId>curator-recipes</artifactId>
+        <version>2.4.2</version>
+    </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>ppm_project_provider</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

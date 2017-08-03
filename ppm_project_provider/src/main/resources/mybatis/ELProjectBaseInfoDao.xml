@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elead.ppm.project.provider.dao.ELProjectBaseInfoDao">
+	<resultMap id="ELProjectMap" type="com.elead.ppm.project.domain.entity.ELProjectBaseInfo">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="project_program_id" jdbcType="VARCHAR" property="projectProgramId" />
+		<result column="project_id" jdbcType="VARCHAR" property="projectCode" />
+		<result column="NAME" jdbcType="VARCHAR" property="projectName" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="project_class" jdbcType="VARCHAR" property="projectClass" />
+		<result column="PMName" jdbcType="VARCHAR" property="pmName" />
+		<result column="PMID" jdbcType="VARCHAR" property="pmId" />
+		<result column="isFile" jdbcType="TINYINT" property="fileFlag" />
+		<result column="state" jdbcType="VARCHAR" property="state" />
+		<result column="active_state" jdbcType="VARCHAR" property="activeState" />
+		<result column="prod_id" jdbcType="VARCHAR" property="prodId" />
+		<result column="dept_id" jdbcType="VARCHAR" property="deptId" />
+		<result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+		<result column="close_time" jdbcType="TIMESTAMP" property="closeTime" />
+		<result column="PHASE" jdbcType="TINYINT" property="phase" />
+		<result column="budget_dollar" jdbcType="REAL" property="budgetDollar" />
+		<result column="budgetRMB" jdbcType="REAL" property="budgetRmb" />
+		<result column="workload" jdbcType="SMALLINT" property="workload" />
+		<result column="visible_range" jdbcType="TINYINT" property="visibleRange" />
+		<result column="delFlag" jdbcType="TINYINT" property="delFlag" />
+		<result column="create_by" jdbcType="VARCHAR" property="createBy" />
+		<result column="createtime" jdbcType="TIMESTAMP" property="createTimestamp" />
+		<result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+		<result column="updatetime" jdbcType="TIMESTAMP" property="updateTimestamp" />
+	</resultMap>
+	<!-- 根据id获取项目基本信息 -->
+	<select id="get" parameterType="java.lang.String" resultMap="ELProjectMap">
+		select * from project_baseinfo where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	
+	
+	<!-- 归档项目 -->
+	<update id="updateProjectFile" parameterType="String">
+		UPDATE project_baseinfo SET isFile=1 WHERE ID = #{projectId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 关闭项目 -->
+	<update id="updateProjectState" parameterType="String">
+		update project_baseinfo set state=1 WHERE ID = #{projectId,jdbcType=VARCHAR}
+	</update>
+	
+	
+	
+	
+	
+	<insert id="insert" parameterType="com.elead.ppm.project.domain.entity.ELProjectBaseInfo">
+		insert into project_baseinfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+			  ID,
+			</if>
+			<if test="projectProgramId != null">
+			  project_program_id,
+			</if>
+			<if test="projectCode != null">
+			  project_id,
+			</if>
+			<if test="projectName != null">
+			  NAME,
+			</if>
+			<if test="description != null">
+			  description,
+			</if>
+			<if test="projectClass != null">
+			  project_class,
+			</if>
+			<if test="pmName != null">
+			  PMName,
+			</if>
+			<if test="pmId != null">
+			  PMID,
+			</if>
+			<if test="fileFlag != null">
+			  isFile,
+			</if>
+			<if test="state != null">
+			  state,
+			</if>
+			<if test="activeState != null">
+			  active_state,
+			</if>
+			<if test="prodId != null">
+			  prod_id,
+			</if>
+			<if test="deptId != null">
+			  dept_id,
+			</if>
+			<if test="startTime != null">
+			  start_time,
+			</if>
+			<if test="closeTime != null">
+			  close_time,
+			</if>
+			<if test="phase != null">
+			  PHASE,
+			</if>
+			<if test="budgetDollar != null">
+			  budget_dollar,
+			</if>
+			<if test="budgetRmb != null">
+			  budgetRMB,
+			</if>
+			<if test="workload != null">
+			  workload,
+			</if>
+			<if test="visibleRange != null">
+			  visible_range,
+			</if>
+			<if test="delFlag != null">
+			  delFlag,
+			</if>
+			<if test="createBy != null">
+			  create_by,
+			</if>
+			<if test="createTimestamp != null">
+			  createtime,
+			</if>
+			<if test="updateBy != null">
+			  update_by,
+			</if>
+			<if test="updateTimestamp != null">
+			  updatetime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+			  #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="projectProgramId != null">
+			  #{projectProgramId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectCode != null">
+			  #{projectCode,jdbcType=VARCHAR},
+			</if>
+			<if test="projectName != null">
+			  #{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+			  #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="projectClass != null">
+			  #{projectClass,jdbcType=VARCHAR},
+			</if>
+			<if test="pmName != null">
+			  #{pmName,jdbcType=VARCHAR},
+			</if>
+			<if test="pmId != null">
+			  #{pmId,jdbcType=VARCHAR},
+			</if>
+			<if test="fileFlag != null">
+			  #{fileFlag,jdbcType=TINYINT},
+			</if>
+			<if test="state != null">
+			  #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="activeState != null">
+			  #{activeState,jdbcType=VARCHAR},
+			</if>
+			<if test="prodId != null">
+			  #{prodId,jdbcType=VARCHAR},
+			</if>
+			<if test="deptId != null">
+			  #{deptId,jdbcType=VARCHAR},
+			</if>
+			<if test="startTime != null">
+			  #{startTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="closeTime != null">
+			  #{closeTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="phase != null">
+			  #{phase,jdbcType=TINYINT},
+			</if>
+			<if test="budgetDollar != null">
+			  #{budgetDollar,jdbcType=REAL},
+			</if>
+			<if test="budgetRmb != null">
+			  #{budgetRmb,jdbcType=REAL},
+			</if>
+			<if test="workload != null">
+			  #{workload,jdbcType=SMALLINT},
+			</if>
+			<if test="visibleRange != null">
+			  #{visibleRange,jdbcType=TINYINT},
+			</if>
+			<if test="delFlag != null">
+			  #{delFlag,jdbcType=TINYINT},
+			</if>
+			<if test="createBy != null">
+			  #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createTimestamp != null">
+			  #{createTimestamp,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+			  #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTimestamp != null">
+			  #{updateTimestamp,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.elead.ppm.project.domain.entity.ELProjectBaseInfo">
+		update project_baseinfo
+		<set>
+			<if test="projectProgramId != null">
+			  project_program_id = #{projectProgramId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectName != null">
+			   NAME = #{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="projectCode != null">
+			  project_id = #{projectCode,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+			  description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="projectClass != null">
+			  project_class = #{projectClass,jdbcType=VARCHAR},
+			</if>
+			<if test="pmId != null">
+			  PMID = #{pmId,jdbcType=VARCHAR},
+			</if>
+			<if test="pmName != null">
+			  PMName = #{pmName,jdbcType=VARCHAR},
+			</if>
+			<if test="fileFlag != null">
+			  isFile = #{fileFlag,jdbcType=TINYINT},
+			</if>
+			<if test="state != null">
+			  state = #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="activeState != null">
+			  active_state = #{activeState,jdbcType=VARCHAR},
+			</if>
+			<if test="prodId != null">
+			  prod_id = #{prodId,jdbcType=VARCHAR},
+			</if>
+			<if test="deptId != null">
+			  dept_id = #{deptId,jdbcType=VARCHAR},
+			</if>
+			<if test="startTime != null">
+			  start_time = #{startTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="closeTime != null">
+			  close_time = #{closeTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="phase != null">
+			  phase = #{phase,jdbcType=TINYINT},
+			</if>
+			<if test="budgetDollar != null">
+			  budget_dollar = #{budgetDollar,jdbcType=REAL},
+			</if>
+			<if test="budgetRmb != null">
+			  budgetRMB = #{budgetRmb,jdbcType=REAL},
+			</if>
+			<if test="workload != null">
+			  workload = #{workload,jdbcType=SMALLINT},
+			</if>
+			<if test="visibleRange != null">
+			  visible_range = #{visibleRange,jdbcType=TINYINT},
+			</if>
+			<if test="delFlag != null">
+			  delFlag = #{delFlag,jdbcType=TINYINT},
+			</if>
+			<if test="createBy != null">
+			  create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createTimestamp != null">
+			  createtime = #{createTimestamp,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+			  update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTimestamp != null">
+			  updatetime = #{updateTimestamp,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="getProjectListByName" resultType="com.elead.ppm.project.domain.dto.ProjectDto" parameterType="com.elead.ppm.project.domain.dto.ProjectDto">
+		select * from project_baseinfo pmb,project_member_baseinfo mem where mem.project_id=pmb.ID
+		<if test="projectDto.name != null and projectDto.name!='' ">  
+		  and pmb.name like #{projectDto.name,jdbcType=VARCHAR} and mem.member_id=#{projectDto.userid,jdbcType=VARCHAR}
+		</if>
+		order by pmb.updatetime desc limit #{pageIndex},#{pageSize}
+	</select>
+	
+	<select id="getProjectList" resultType="com.elead.ppm.project.domain.dto.ProjectDto" parameterType="com.elead.ppm.project.domain.dto.ProjectDto">
+		select * from project_baseinfo pmb
+		<if test="projectDto.name != null and projectDto.name!='' ">  
+		  where pmb.name like #{projectDto.name,jdbcType=VARCHAR} 
+		</if>
+		order by pmb.updatetime desc limit #{pageIndex},#{pageSize}
+	</select>
+	
+	<!-- 根据项目id查询需求总数 -->
+	<select id="queryProjectTotal" parameterType="String" resultType="int">
+		select count(*) from project_baseinfo;
+	</select>
+	
+	<!-- 查询导航栏项目 -->
+	<select id="getMyAdministrationProject" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		(SELECT b.id,b.name,'1' p_type FROM project_baseinfo b INNER JOIN project_my_open mo ON b.id = mo.project_id 
+		    WHERE b.state = 0 AND b.delFlag = 0  AND mo.delFlag = 0
+			<if test="keywords!=null and keywords!=''">
+            	AND b.name LIKE CONCAT(CONCAT('%', #{keywords, jdbcType=VARCHAR}),'%')
+       		</if>
+		     AND mo.user_id = #{userId,jdbcType=VARCHAR} ORDER BY mo.updatetime DESC LIMIT 0,3)
+			UNION ALL
+		(SELECT b.id,b.name,'2' p_type FROM project_baseinfo b WHERE b.delFlag = 0 AND b.state = 0
+			<if test="keywords!=null and keywords!=''">
+            	AND b.name LIKE CONCAT(CONCAT('%', #{keywords, jdbcType=VARCHAR}),'%')
+       		</if>
+		 AND b.create_by = #{userId,jdbcType=VARCHAR})
+			UNION ALL
+		(SELECT b.id,b.name,'3' p_type FROM project_baseinfo b INNER JOIN project_member_baseinfo mb ON b.id = mb.project_id
+		  	WHERE b.delFlag = 0 AND mb.delFlag = 0 AND b.state = 0 and b.isFile = 0 
+		  	<if test="keywords!=null and keywords!=''">
+            	AND b.name LIKE CONCAT(CONCAT('%', #{keywords, jdbcType=VARCHAR}),'%')
+       		</if>
+		  	AND mb.member_id = #{userId,jdbcType=VARCHAR})
+	</select>
+	
+	<!-- 查询我收藏的项目 -->
+	<select id="getMyCareProject" parameterType="String" resultType="java.util.HashMap">
+		SELECT * FROM project_baseinfo b INNER JOIN project_my_care mc ON b.id = mc.project_id WHERE
+   			b.delFlag = 0 AND mc.delFlag = 0 AND b.state = 0  
+   			<if test="keywords!=null and keywords!=''">
+            	AND b.name LIKE CONCAT(CONCAT('%', #{keywords, jdbcType=VARCHAR}),'%')
+       		</if>
+   			AND user_id = #{userId,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 查询归档的项目 -->
+	<select id="getIsFileProject" parameterType="String" resultType="java.util.HashMap">
+		 SELECT b.id,b.name,'3' p_type FROM project_baseinfo b INNER JOIN project_member_baseinfo mb ON b.id = mb.project_id
+ 		    WHERE b.delFlag = 0 AND mb.delFlag = 0 AND b.state = 0 and b.isFile = 1 
+ 		    <if test="keywords!=null and keywords!=''">
+            	AND b.name LIKE CONCAT(CONCAT('%', #{keywords, jdbcType=VARCHAR}),'%')
+       		</if>
+ 		    AND mb.member_id = #{userId,jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="addProjectMyOpen" parameterType="java.util.HashMap">
+		INSERT INTO project_my_open
+            (ID,
+             project_id,
+             user_id,
+             delFlag,
+             create_id,
+             createtime,
+             update_id,
+             updatetime)
+		VALUES (#{id,jdbcType=VARCHAR},
+		        #{projectId,jdbcType=VARCHAR},
+		        #{userId,jdbcType=VARCHAR},
+		        0,
+		        #{userId,jdbcType=VARCHAR},
+		        now(),
+		        #{userId,jdbcType=VARCHAR},
+		        now())
+	</insert>
+	
+	<select id="getProjectMyOpenCount" parameterType="java.util.HashMap" resultType="int">
+		select count(*) from project_my_open where project_id = #{projectId,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateProjectMyOpen" parameterType="java.util.HashMap">
+		UPDATE project_my_open SET updatetime = NOW() WHERE project_id = #{projectId,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=VARCHAR}
+	</update>
+	
+	<delete id="delProjectMyOpen" parameterType="string">
+		DELETE FROM project_my_open WHERE id IN (
+        	SELECT t.id FROM (SELECT id FROM project_my_open WHERE  user_id = #{userId,jdbcType=VARCHAR} ORDER BY updatetime DESC LIMIT 3,10) AS t
+        )
+	</delete>
+	
+  <!-- 通过项目id和获取已完成的任务 -->
+  <select id="getFinishTaskByProjectIdCount" parameterType="java.lang.String" resultType="int">
+    select count(*) from task_baseinfo where project_id = #{projectId} and end_time is not null and state=1 and delFlag!=1
+  </select>
+  
+  <!-- 通过项目id和获取所有任务 -->
+  <select id="getAllTaskByProjectIdCount" parameterType="java.lang.String" resultType="int">
+    select count(*) from task_baseinfo where project_id = #{projectId} and delFlag!=1
+  </select>
+  
+   <!-- 通过项目id和获取所有延期任务 -->
+  <select id="getDelayTaskByProjectIdCount" parameterType="java.lang.String" resultType="int">
+    select count(*) from task_baseinfo where project_id = #{projectId} and planned_end_time is not null and delFlag!=1 and ((end_time is not null and planned_end_time &lt;  end_time)
+   or (end_time is null and planned_end_time &gt; str_to_date(#{currentDate},'yyyy-MM-dd hh24:mi:ss')))
+  </select>
+  
+  <!-- 通过项目id和获取进行中的任务 -->
+  <select id="getDoingTaskByProjectIdCount" parameterType="java.lang.String" resultType="int">
+    select count(*) from task_baseinfo where project_id = #{projectId} and planned_end_time is not null and end_time is null and delFlag!=1
+  </select>
+  
+		
+</mapper>

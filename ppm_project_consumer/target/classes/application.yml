@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: ppm_project_consumer
+  profiles:
+    active: local

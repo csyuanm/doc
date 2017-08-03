@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elead.ppm.project.provider.dao.ELProjectMemberBaseInfoDao" > 
+	
+	<resultMap id="member" type="com.elead.ppm.project.domain.entity.ELProjectMemberBaseInfo" >
+    	<id column="ID" property="id" jdbcType="VARCHAR" />
+	    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+	    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	    <result column="job_number" property="jobNumber" jdbcType="VARCHAR" />
+	    <result column="serial_number" property="serialNumber" jdbcType="TINYINT" />
+	    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+	    <result column="state" property="state" jdbcType="TINYINT" />
+	    <result column="region" property="region" jdbcType="VARCHAR" />
+	    <result column="percentage" property="percentage" jdbcType="DOUBLE" />
+	    <result column="remark" property="remark" jdbcType="VARCHAR" />
+	    <result column="input_time" property="inputTime" jdbcType="TIMESTAMP" />
+	    <result column="release_time" property="releaseTime" jdbcType="TIMESTAMP" />
+	    <result column="delFlag" property="delFlag" jdbcType="TINYINT" />
+	    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+	    <result column="createtime" property="createTimestamp" jdbcType="TIMESTAMP" />
+	    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+	    <result column="updatetime" property="updateTimestamp" jdbcType="TIMESTAMP" />
+  	</resultMap>
+	
+	<!-- 根据需求id查询参与人对象列表 -->
+	<select id="findMemberByRequirementId"
+		parameterType="String"
+		resultMap="member">
+		select *
+		from project_member_baseinfo
+		where member_id in (
+				select responsible_id
+				from requirement_responsible_relation
+				where requirement_id=#{requirementId}
+			)
+	</select>
+	
+	
+	<insert id="insert" parameterType="com.elead.ppm.project.domain.entity.ELProjectMemberBaseInfo" >
+		insert into project_member_baseinfo
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			  ID,
+			</if>
+			<if test="projectId != null" >
+			  project_id,
+			</if>
+			<if test="memberId != null" >
+			  member_id,
+			</if>
+			<if test="name != null" >
+			  NAME,
+			</if>
+			<if test="jobNumber != null" >
+			  job_number,
+			</if>
+			<if test="serialNumber != null" >
+			  serial_number,
+			</if>
+			<if test="roleId != null" >
+			  role_id,
+			</if>
+			<if test="state != null" >
+			  state,
+			</if>
+			<if test="region != null" >
+			  region,
+			</if>
+			<if test="percentage != null" >
+			  percentage,
+			</if>
+			<if test="remarks != null" >
+			  remark,
+			</if>
+			<if test="inputTime != null" >
+			  input_time,
+			</if>
+			<if test="releaseTime != null" >
+			  release_time,
+			</if>
+			<if test="delFlag != null" >
+			  delFlag,
+			</if>
+			<if test="createBy != null" >
+			  create_by,
+			</if>
+			<if test="createTimestamp != null" >
+			  createtime,
+			</if>
+			<if test="updateBy != null" >
+			  update_by,
+			</if>
+			<if test="updateTimestamp != null" >
+			  updatetime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			  #{id,jdbcType=INTEGER},
+			</if>
+			<if test="projectId != null" >
+			  #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="memberId != null" >
+			  #{memberId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null" >
+			  #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="jobNumber != null" >
+			  #{jobNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="serialNumber != null" >
+			  #{serialNumber,jdbcType=TINYINT},
+			</if>
+			<if test="roleId != null" >
+			  #{roleId,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null" >
+			  #{state,jdbcType=TINYINT},
+			</if>
+			<if test="region != null" >
+			  #{region,jdbcType=VARCHAR},
+			</if>
+			<if test="percentage != null" >
+			  #{percentage,jdbcType=DOUBLE},
+			</if>
+			<if test="remarks != null" >
+			  #{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="inputTime != null" >
+			  #{inputTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="releaseTime != null" >
+			  #{releaseTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null" >
+			  #{delFlag,jdbcType=TINYINT},
+			</if>
+			<if test="createBy != null" >
+			  #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createTimestamp != null" >
+			  #{createTimestamp,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null" >
+			  #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTimestamp != null" >
+			  #{updateTimestamp,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	<select id="getProjectMemberById" resultType="com.elead.ppm.project.domain.entity.ELProjectMemberBaseInfo">
+		select * from project_member_baseinfo pmb where pmb.member_id = #{0} and pmb.project_id = #{1}  
+	</select>
+
+	<!-- 根据id删除成员 -->
+	<delete id="deleteById" >
+		delete from project_member_baseinfo where id = #{id}  
+	</delete>
+	
+	
+	<!-- 根据项目id过去项目成员 -->
+	<select id="getProjectMemberByProjectId" parameterType="String" resultType="com.elead.ppm.project.domain.entity.ELProjectMemberBaseInfo">
+		select * from project_member_baseinfo where project_id = #{projectId}
+	</select>
+	
+	<!-- 根据项目id获取项目成员 -->
+	<select id="getProjectMember" parameterType="com.elead.ppm.project.domain.entity.ELProjectMemberBaseInfo" resultMap="member">
+	select * from project_member_baseinfo where project_id = #{projectId}
+	</select>
+	
+	<!-- 项目id获取名字列表 -->
+	<select id="getProjectMemberNameByProjectId" parameterType="String" resultType="String">
+		select name from project_member_baseinfo where project_id = #{projectId}
+	</select>
+	<!-- 根据id删除项目成员 -->
+	<select id="deleteProjectMember" parameterType="com.elead.ppm.project.domain.entity.ELProjectMemberBaseInfo" >
+	delete from project_member_baseinfo where ID = #{id}
+	</select>
+	
+	<!-- 查找成员 -->
+	<select id="getMemberByName" parameterType="String" resultMap="member">
+		select * from project_member_baseinfo 
+			where project_id=#{projectId}
+			and name like #{name}
+	</select>
+	 	
+	 <!-- 根据id修改成员角色 -->	
+	 <select id="updateRoleById">
+	 	update project_member_baseinfo set role_id = #{roleId} where id = #{id}
+	 </select>
+	 	
+	<!-- 查重 -->
+	<select id="checkRepeat" parameterType="com.elead.ppm.project.domain.entity.ELProjectMemberBaseInfo" resultType="Integer">
+		select count(*) from project_member_baseinfo where project_id = #{projectId} and name = #{name} 
+	<!--  	<if test="userName != null and userName != ''">
+			AND u.userName LIKE CONCAT('%',#{userName},'%')
+		</if>
+	-->
+	</select>
+	
+</mapper>

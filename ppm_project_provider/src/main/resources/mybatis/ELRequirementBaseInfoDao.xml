@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elead.ppm.project.provider.dao.ELRequirementBaseInfoDao">
+	
+  <resultMap id="BaseResultMap" type="com.elead.ppm.project.domain.entity.ELRequirementBaseInfo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="priority" jdbcType="TINYINT" property="priority" />
+    <result column="workload" jdbcType="REAL" property="workload" />
+    <result column="submitter_id" jdbcType="VARCHAR" property="submitterId" />
+    <result column="submitter_name" jdbcType="VARCHAR" property="submitterName" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="delFlag" jdbcType="TINYINT" property="delFlag" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createTimestamp" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updateTimestamp" />
+  </resultMap>
+  
+  <!-- 根据项目id查待实现需求 -->
+	<select id="selectRequireUnfinished" parameterType="com.elead.ppm.project.domain.entity.ELRequirementBaseInfo" resultType="Integer">
+	select count(*) FROM requirement_baseinfo where project_id = #{projectId} and state != 4;	
+	</select>
+  
+  <insert id="insert" parameterType="com.elead.ppm.project.domain.entity.ELRequirementBaseInfo" >
+    insert into requirement_baseinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="workload != null" >
+        workload,
+      </if>
+      <if test="submitterId != null" >
+        submitter_id,
+      </if>
+      <if test="submitterName != null" >
+        submitter_name,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="delFlag != null" >
+        delFlag,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createTimestamp != null" >
+        createtime,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateTimestamp != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=TINYINT},
+      </if>
+      <if test="workload != null" >
+        #{workload,jdbcType=REAL},
+      </if>
+      <if test="submitterId != null" >
+        #{submitterId,jdbcType=VARCHAR},
+      </if>
+      <if test="submitterName != null" >
+        #{submitterName,jdbcType=VARCHAR},
+      </if>
+  
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTimestamp != null" >
+        #{createTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTimestamp != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <!-- 根据项目id查找需求列表 -->
+	<select id="findRequirementsByProjectId"
+		resultMap="BaseResultMap">
+		select * from requirement_baseinfo where project_id=#{projectId} and delFlag != 1
+		order by
+		<choose>
+			<when test="sort == 'firstSort'">
+				state DESC,end_date ASC
+			</when>
+			<otherwise>
+				${sort} ${order}
+			</otherwise>
+		</choose>
+		limit #{startIndex},#{pageSize}
+	</select>
+	
+	
+	<!-- 根据需求名模糊查询需求列表 -->
+	<select id="findRequirementsByName"
+		parameterType="String"
+		resultMap="BaseResultMap">
+		select * from requirement_baseinfo where project_id=#{projectId} and delFlag != 1 and name like #{keyWord}
+		order by
+		<choose>
+			<when test="sort == 'firstSort'">
+				state DESC,end_date ASC
+			</when>
+			<otherwise>
+				${sort} ${order}
+			</otherwise>
+		</choose>
+		limit #{startIndex},#{pageSize}
+	</select>
+	
+	
+	<!-- 根据筛选条件和筛选值来筛选需求 -->
+	<select id="screenRequirement"
+		parameterType="String"
+		resultMap="BaseResultMap">
+		select * from requirement_baseinfo where project_id=#{projectId} and delFlag != 1
+			and ${selectCondition}=#{selectVal}
+			order by
+			<choose>
+				<when test="sort == 'firstSort'">
+					state DESC,end_date ASC
+				</when>
+				<otherwise>
+					${sort} ${order}
+				</otherwise>
+			</choose>
+			limit #{startIndex},#{pageSize}
+	</select>
+	
+	
+	<!-- 根据项目id查询需求总数 -->
+	<select id="queryTotal"
+		parameterType="String"
+		resultType="int">
+		select count(*) from requirement_baseinfo 
+			where project_id=#{projectId} and delFlag != 1
+			<choose>
+				<!-- 需求列表总数 -->
+				<when test="type == ''">
+				</when>
+				<!-- 搜索结果的总数 -->
+				<when test="type == 'name'">
+					and name like #{value}
+				</when>
+				<!-- 需求状态、优先级、提出人筛选结果的总数 -->
+				<otherwise>
+					and ${type}=#{value}
+				</otherwise>
+			</choose>
+	</select>
+	
+	
+	<!-- 根据输入内容搜索提出人 -->
+	<select id="getSubmitterByName"
+		parameterType="String"
+		resultMap="BaseResultMap">
+		select distinct submitter_id,submitter_name from requirement_baseinfo 
+			where project_id=#{projectId}
+			and submitter_name like #{name}
+	</select>
+	
+	
+	<!-- 根据标签id搜索需求 -->
+	<select id="getRequirmentByLabelId"
+		parameterType="String"
+		resultMap="BaseResultMap">
+		select * from requirement_baseinfo where project_id=#{projectId}
+		and ID in(
+			select requirement_id from requirement_label_relation
+			where lable_id=#{labelId}
+		)
+		order by
+		<choose>
+			<when test="sort == 'firstSort'">
+				state DESC,end_date ASC
+			</when>
+			<otherwise>
+				${sort} ${order}
+			</otherwise>
+		</choose>
+		limit #{startIndex},#{pageSize}
+	</select>
+	
+	
+	<!-- 新建需求 -->
+	<insert id="addRequirement"
+		parameterType="com.elead.ppm.project.domain.entity.ELRequirementBaseInfo">
+		insert into requirement_baseinfo
+		(ID, project_id, code, name, priority, state, delFlag, create_by, createtime, update_by, updatetime)
+		values(#{id}, #{projectId}, #{code}, #{name}, 0, 2, 0, #{createBy}, now(), #{updateBy}, now())
+	</insert>
+	
+	
+	<!-- 根据需求id查询需求对象 -->
+	<select id="getRequiremenById"
+		parameterType="String"
+		resultType="com.elead.ppm.project.domain.entity.ELRequirementBaseInfo">
+		select * from requirement_baseinfo where ID=#{requirementId}
+	</select>
+	
+	
+	<!-- 根据需求对象更新数据 -->
+	<update id="updateByPrimaryKeySelective" 
+		parameterType="com.elead.ppm.project.domain.entity.ELRequirementBaseInfo" >
+    	update requirement_baseinfo
+	    <set >
+	      <if test="projectId != null" >
+	        project_id = #{projectId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="code != null" >
+	        code = #{code,jdbcType=VARCHAR},
+	      </if>
+	      <if test="name != null" >
+	        name = #{name,jdbcType=VARCHAR},
+	      </if>
+	      <if test="description != null" >
+	        description = #{description,jdbcType=VARCHAR},
+	      </if>
+	      <if test="state != null" >
+	        state = #{state,jdbcType=VARCHAR},
+	      </if>
+	      <if test="priority != null" >
+	        priority = #{priority,jdbcType=TINYINT},
+	      </if>
+	      <if test="workload != null" >
+	        workload = #{workload,jdbcType=REAL},
+	      </if>
+	      <if test="submitterId != null" >
+	        submitter_id = #{submitterId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="submitterName != null" >
+	        submitter_name = #{submitterName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="endDate != null" >
+	        end_date = #{endDate,jdbcType=DATE},
+	      </if>
+	      <if test="delFlag != null" >
+	        delFlag = #{delFlag,jdbcType=TINYINT},
+	      </if>
+	      <if test="createBy != null" >
+	        create_by = #{createBy,jdbcType=VARCHAR},
+	      </if>
+	      <if test="createTimestamp != null" >
+	        createtime = #{createTimestamp,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="updateBy != null" >
+	        update_by = #{updateBy,jdbcType=VARCHAR},
+	      </if>
+	      <if test="updateTimestamp != null" >
+	        updatetime = #{updateTimestamp,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="typeId != null" >
+	      	type_id = #{typeId,jdbcType=TIMESTAMP},
+	      </if>
+	    </set>
+    	where ID = #{id,jdbcType=VARCHAR}
+  	</update>
+
+	<!--**********************需求修改*********************-->
+	
+	<resultMap id="BaseResultMap2" type="com.elead.ppm.project.domain.entity.ELRequirementBaseInfo">
+	    <id column="ID" jdbcType="VARCHAR" property="id" />
+	    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
+	    <result column="code" jdbcType="VARCHAR" property="code" />
+	    <result column="name" jdbcType="VARCHAR" property="name" />
+	    <result column="description" jdbcType="VARCHAR" property="description" />
+	    <result column="state" jdbcType="VARCHAR" property="state" />
+	    <result column="priority" jdbcType="TINYINT" property="priority" />
+	    <result column="workload" jdbcType="REAL" property="workload" />
+	    <result column="submitter_id" jdbcType="VARCHAR" property="submitterId" />
+	    <result column="submitter_name" jdbcType="VARCHAR" property="submitterName" />
+	    <result column="end_date" jdbcType="DATE" property="endDate" />
+	    <result column="delFlag" jdbcType="TINYINT" property="delFlag" />
+	    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+	    <result column="createtime" jdbcType="TIMESTAMP" property="createTimestamp" />
+	    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+	    <result column="updatetime" jdbcType="TIMESTAMP" property="updateTimestamp" />
+	    <collection property="commonCheckList" column="owner_id" ofType="CommonCheckList">
+            <id property="checkId" column="checkId" javaType="string" jdbcType="VARCHAR"/>    
+            <result property="ownerId" column="owner_id" javaType="string" jdbcType="VARCHAR"/> 
+            <result property="checkName" column="checkName" javaType="string" jdbcType="VARCHAR"/> 
+            <result property="checkDescription" column="checkDescription" javaType="string" jdbcType="VARCHAR"/>    
+            <result property="checkPercentage" column="checkPercentage" javaType="string" jdbcType="VARCHAR"/>
+            <result property="checkState" column="checkState" javaType="byte" jdbcType="INTEGER"/>    
+        </collection>
+        <collection property="lableIds" column="owner_id" ofType="String">    
+            <result property="lableId" column="lable_id" javaType="string" jdbcType="VARCHAR"/> 
+        </collection>
+        <collection property="responsibleIds" column="requirement_id" ofType="String">    
+            <result property="responsibleIds" column="responsible_id" javaType="string" jdbcType="VARCHAR"/> 
+        </collection>
+  	</resultMap>
+	
+	<!--通过项目id获取项目成员-->
+	<select id="getMemberById" parameterType="java.lang.String" resultType="java.util.HashMap">
+		 select name,member_id from project_member_baseinfo where project_id = #{projectId} and delFlag!=1
+	</select>
+	
+	<!--查找需求详细信息-->
+	<select id="getRequirementInfoById" parameterType="java.lang.String" resultMap="BaseResultMap2">
+		SELECT b.*  FROM (SELECT b.*,
+			  lab.lable_id,
+			  rr.responsible_id,
+			  ct.id checkId,
+			  ct.owner_id,
+			  ct.name checkName,
+			  ct.description checkDescription,
+			  ct.percentage checkPercentage,
+			  ct.state checkState
+		FROM 
+		(SELECT * FROM requirement_baseinfo b WHERE b.delFlag = 0 
+		and b.id = #{requirementId,jdbcType=VARCHAR} LIMIT 0,1
+		) b
+		LEFT JOIN requirement_label_relation lab ON b.id = lab.requirement_id
+		LEFT JOIN requirement_responsible_relation rr ON b.id = rr.requirement_id
+		LEFT JOIN (SELECT c.* FROM common_check_list c WHERE c.check_type = 4 and c.delFlag = 0) ct
+		ON b.id = ct.owner_id
+		) b 
+	</select>
+	
+	 <!--批量添加需求成员--> 
+	  <insert id="addMembers" useGeneratedKeys="true" parameterType="java.util.List">  
+	    <selectKey resultType="long" keyProperty="id" order="AFTER">  
+	        SELECT  
+	        LAST_INSERT_ID()  
+	    </selectKey>  
+	    insert into requirement_responsible_relation (ID,responsible_id,requirement_id)
+	    values  
+	    <foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.id},#{item.responsibleid},#{item.requirementId})  
+	    </foreach>  
+	  </insert>
+	  
+	  <!--需求删除成员-->
+	  <delete id="deleteMember" parameterType="java.util.HashMap">  
+	   	delete from requirement_responsible_relation where responsible_id = #{responsibleid} and requirement_id = #{requirementId} 
+	  </delete> 
+	  
+	   <!--批量添加计划标签-->
+	  <insert id="addLableRelation" useGeneratedKeys="true" parameterType="java.util.List">  
+		    <selectKey resultType="long" keyProperty="id" order="AFTER">  
+		        SELECT  
+		        LAST_INSERT_ID()  
+		    </selectKey>  
+		    insert into requirement_label_relation (ID,lable_id,requirement_id)   
+		    values  
+		    <foreach collection="list" item="item" index="index" separator="," >  
+		        (#{item.id},#{item.lableId},#{item.requirementId})
+		    </foreach>  
+	  </insert> 
+	  
+	  <!--需求删除标签-->
+	  <delete id="deleteLableRelation" parameterType="java.util.HashMap">  
+	   	delete from requirement_label_relation where lable_id = #{lableId} and requirement_id = #{requirementId} 
+	  </delete>
+	  
+  		 <!--需求添加检查项-->
+  	<insert id="addCommonCheckItem" parameterType="com.elead.ppm.project.domain.entity.CommonCheckItem" >
+	    insert into common_check_list
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+	        ID,
+	        owner_id,
+	        project_id,
+	        check_type,
+	        create_name,
+	        name,
+	        description,
+	        percentage,
+	        state,
+	        delFlag,
+	        create_by,
+	        createtime,
+	        update_by,
+	        updatetime,
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	        #{id,jdbcType=VARCHAR},
+	        #{ownerId,jdbcType=VARCHAR},
+	        #{projectId,jdbcType=VARCHAR},
+	        #{checkType,jdbcType=VARCHAR},
+	        #{createName,jdbcType=VARCHAR},
+	        #{name,jdbcType=VARCHAR},
+	        #{description,jdbcType=VARCHAR},
+	        #{percentage,jdbcType=FLOAT},
+	        #{state,jdbcType=TINYINT},
+	        #{delFlag,jdbcType=TINYINT},
+	        #{createBy,jdbcType=VARCHAR},
+	        #{createTimestamp,jdbcType=TIMESTAMP},
+	        #{updateBy,jdbcType=VARCHAR},
+	        #{updateTimestamp,jdbcType=TIMESTAMP},
+	    </trim>
+	  </insert>
+  
+	  <!--需求删除检查项-->
+	  <update id="deleteCommonCheckItem" parameterType="com.elead.ppm.project.domain.entity.CommonCheckItem">   
+	        update common_check_list   
+	        <set>  
+	          delFlag=#{delFlag},
+	        </set> 
+	        where owner_id = #{ownerId} and  ID = #{id}
+	  </update>
+	
+	<!--需求检查项修改状态-->
+	 <update id="updateCommonCheckItem" parameterType="java.util.HashMap">   
+	      UPDATE common_check_list SET state = #{state,jdbcType=TINYINT}
+			WHERE ID = #{id,jdbcType=VARCHAR}
+			and owner_id =  #{requirementId,jdbcType=VARCHAR}
+	 </update>
+
+	<select id="getRequirementBaseinfoList" resultMap="BaseResultMap2">
+	   SELECT b.*  FROM (SELECT b.*,
+			  lab.lable_id,
+			  rr.responsible_id,
+			  ct.id checkId,
+			  ct.owner_id,
+			  ct.name checkName,
+			  ct.description checkDescription,
+			  ct.percentage checkPercentage,
+			  ct.state checkState
+		FROM 
+		(SELECT * FROM requirement_baseinfo b WHERE b.delFlag = 0 
+		<if test="selType!=null and selType!=''">
+		 	<choose>
+	            <when test="selType=='state'">
+	                AND b.state= #{selVal, jdbcType=VARCHAR}
+	            </when>
+	            <when test="selType=='priority'">
+	                AND b.priority = #{selVal, jdbcType=INTEGER}
+	            </when>
+	            <when test="selType=='submitter'">
+	                AND b.submitter_id in
+	                <foreach collection="selVal" index="index" item="item" open="("
+						separator="," close=")">
+						#{item}
+					</foreach>
+	            </when>
+        	</choose>
+        </if>
+        <if test="condition!=null and condition!=''">
+        	AND state !=4 
+   		</if>
+        <if test="keywords!=null and keywords!=''">
+            AND (b.name LIKE CONCAT(CONCAT('%', #{keywords, jdbcType=VARCHAR}),'%')
+            	OR b.description LIKE CONCAT(CONCAT('%', #{keywords, jdbcType=VARCHAR}),'%')
+            )
+        </if>
+        <if test="requirementIds!=null and requirementIds.size() > 0">
+            AND b.id in
+        	<foreach collection="requirementIds" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+        </if>
+        <if test="projectId!=null and projectId !=''">
+            AND b.project_id = #{projectId, jdbcType=INTEGER}
+        </if>
+		ORDER BY
+			<if test="page.sort!=null and page.sort !=''">
+	           ${page.sort} ${page.order},
+	        </if>
+		b.state,b.end_date desc
+		limit #{page.start_size,jdbcType=VARCHAR},#{page.page_size,jdbcType=VARCHAR}
+		) b
+		LEFT JOIN requirement_label_relation lab ON b.id = lab.requirement_id
+		LEFT JOIN requirement_responsible_relation rr ON b.id = rr.requirement_id
+		LEFT JOIN (SELECT c.* FROM common_check_list c WHERE c.check_type = 4 and c.delFlag = 0) ct
+		ON b.id = ct.owner_id
+		) b ORDER BY
+			<if test="page.sort!=null and page.sort !=''">
+	           ${page.sort} ${page.order},
+	        </if>
+		b.state,b.end_date desc
+	</select>
+	
+	<select id="getRequirementBaseinfoListCount" resultType="int">
+		select count(*) from requirement_baseinfo b where b.delFlag = 0 
+		<if test="selType!=null and selType!=''">
+		 	<choose>
+	            <when test="selType=='state'">
+	                AND b.state= #{selVal, jdbcType=VARCHAR}
+	            </when>
+	            <when test="selType=='priority'">
+	                AND b.priority = #{selVal, jdbcType=INTEGER}
+	            </when>
+        	</choose>
+        </if>
+        <if test="keywords!=null and keywords!=''">
+            AND (b.name LIKE CONCAT(CONCAT('%', #{keywords, jdbcType=VARCHAR}),'%')
+            	OR b.description LIKE CONCAT(CONCAT('%', #{keywords, jdbcType=VARCHAR}),'%')
+            )
+        </if>
+        <if test="requirementIds!=null and requirementIds.size() > 0">
+            AND b.id in
+        	<foreach collection="requirementIds" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+        </if>
+        <if test="projectId!=null and projectId !=''">
+            AND b.project_id = #{projectId, jdbcType=INTEGER}
+        </if>
+	</select>
+	
+	<select id="getRequirementIdsByResponsibleIds" resultType="String">
+		SELECT r.requirement_id FROM requirement_responsible_relation r WHERE r.responsible_id IN 
+		<foreach collection="list" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+		</foreach>
+	</select>
+	
+	<select id="getRequirementIdsByLableIds" resultType="String">
+		SELECT lr.requirement_id FROM requirement_label_relation lr WHERE lr.lable_id IN
+		<foreach collection="list" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+		</foreach>
+	</select>
+	
+</mapper>

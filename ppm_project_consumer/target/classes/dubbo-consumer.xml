@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+    <!--<dubbo:application name="system-consumer" owner="system-consumer" organization="elead"/>-->
+
+    <!--<dubbo:registry address="zookeeper://java.zk2.elead.cn:2181?backup=java.zk1.elead.cn:2181,java.zk3.elead.cn:2181"/>-->
+
+    <!--uncomment this if you want to test dubbo's monitor-->
+    <!--<dubbo:monitor protocol="registry"/>-->
+    <dubbo:consumer timeout="500000"  retries="0" />
+
+    <dubbo:reference id="projectBaseInfoService"  interface="com.elead.ppm.project.domain.service.ELProjectBaseInfoService" protocol="dubbo" retries="3" version="1.0.0" />
+    
+    <dubbo:reference id="planStageBaseInfoService"  interface="com.elead.ppm.project.domain.service.ELPlanStageBaseInfoService" protocol="dubbo" retries="3" version="1.0.0" />
+    
+    <dubbo:reference id="projectMemberBaseInfoService"  interface="com.elead.ppm.project.domain.service.ELProjectMemberBaseInfoService" protocol="dubbo" retries="3" version="1.0.0" />
+	    
+    <dubbo:reference id="peopleService" interface="com.elead.platform.system.domain.service.ELPeopleService" protocol="dubbo" retries="0" version="1.0.0" check="false"/>
+    
+    <dubbo:reference id="elRequirementBaseInfoService"  interface="com.elead.ppm.project.domain.service.ELRequirementBaseInfoService" protocol="dubbo" retries="3" version="1.0.0"></dubbo:reference>
+    
+    <dubbo:reference id="elCommonCodeRegulationService"  interface="com.elead.ppm.project.domain.service.ELCommonCodeRegulationService" protocol="dubbo" retries="3" version="1.0.0"></dubbo:reference>
+    
+    <dubbo:reference id="ELDictService" interface="com.elead.platform.system.domain.service.ELDictService" protocol="dubbo" retries="0" version="1.0.0" check="false"/>
+    
+    <dubbo:reference id="taskBaseInfoService" interface="com.elead.ppm.task.domain.service.ELTaskBaseInfoService" protocol="dubbo" retries="0" version="1.0.0" check="false"/>
+</beans>

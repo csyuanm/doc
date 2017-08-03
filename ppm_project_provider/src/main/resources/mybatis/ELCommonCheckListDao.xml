@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elead.ppm.project.provider.dao.ELCommonCheckListDao">
+	
+	<resultMap id="check" type="com.elead.ppm.project.domain.entity.ELCommonCheckList" >
+	    <id column="ID" property="id" jdbcType="VARCHAR" />
+	    <result column="owner_id" property="ownerId" jdbcType="VARCHAR" />
+	    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+	    <result column="check_type" property="checkType" jdbcType="VARCHAR" />
+	    <result column="create_name" property="createName" jdbcType="VARCHAR" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	    <result column="description" property="description" jdbcType="VARCHAR" />
+	    <result column="percentage" property="percentage" jdbcType="REAL" />
+	    <result column="state" property="state" jdbcType="TINYINT" />
+	    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+	    <result column="createtime" property="createTimestamp" jdbcType="TIMESTAMP" />
+	    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+	    <result column="updatetime" property="updateTimestamp" jdbcType="TIMESTAMP" />
+  	</resultMap>
+	
+	<!-- 根据需求id查询其对应的检查项 -->
+	<select id="findCheckByRequirementId"
+		parameterType="String"
+		resultMap="check">
+		select *
+		from common_check_list
+		where owner_id=#{requirementId}
+	</select>
+
+</mapper>

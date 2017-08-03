@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--<dubbo:application name="system-provider" owner="system-provider" organization="elead"/>-->
+    <!--<dubbo:registry address="zookeeper://java.zk2.elead.cn:2181?backup=java.zk1.elead.cn:2181,java.zk3.elead.cn:2181"/>-->
+
+    <!--<dubbo:monitor protocol="registry"/>-->
+
+    <dubbo:provider timeout="1200000" loadbalance="leastactive" retries="0"  cluster="failfast"/>
+    <dubbo:protocol name="dubbo"/>
+
+    <!-- 声明需要暴露的服务接口 -->
+    <dubbo:service interface="com.elead.ppm.project.domain.service.ELProjectBaseInfoService" ref="projectBaseInfoService" protocol="dubbo" executes="10000" actives="1000" version="1.0.0"/>
+    <dubbo:service interface="com.elead.ppm.project.domain.service.ELProjectMemberBaseInfoService" ref="projectMemberBaseInfoService" protocol="dubbo" executes="10000" actives="1000" version="1.0.0"/>
+	<dubbo:service interface="com.elead.ppm.project.domain.service.ELPlanStageBaseInfoService" ref="planStageBaseInfoService" protocol="dubbo" executes="10000" actives="1000" version="1.0.0"/>
+	<dubbo:service interface="com.elead.ppm.project.domain.service.ELRequirementBaseInfoService" ref="elRequirementBaseInfoService" protocol="dubbo" executes="10000" actives="1000" version="1.0.0"/>
+	<dubbo:service interface="com.elead.ppm.project.domain.service.ELCommonCodeRegulationService" ref="elCommonCodeRegulationService" protocol="dubbo" executes="10000" actives="1000" version="1.0.0"/>
+	
+    <!--<dubbo:reference id="goodsService"  	  interface="cn.elead.ppmplatform.product.api.GoodsService" protocol="dubbo" retries="0" version="0.0.0" check="false"/>-->
+	<dubbo:reference id="peopleService" interface="com.elead.platform.system.domain.service.ELPeopleService" protocol="dubbo" retries="0" version="1.0.0" check="false"/>
+	<dubbo:reference id="dictService" interface="com.elead.platform.system.domain.service.ELDictService" protocol="dubbo" retries="0" version="1.0.0" check="false"/>
+	<dubbo:reference id="elAuthorizationControlService" interface="com.elead.platform.system.domain.service.ELAuthorizationControlService" protocol="dubbo" retries="0" version="1.0.0" check="false"/>
+	
+
+</beans>

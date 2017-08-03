@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elead.ppm.project.provider.dao.ELCommonAttachmentDao" >
+  <resultMap id="BaseResultMap" type="com.elead.ppm.project.domain.entity.ELCommonAttachment" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="owner_id" property="ownerId" jdbcType="VARCHAR" />
+    <result column="owner_type" property="ownerType" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="serial_number" property="serialNumber" jdbcType="INTEGER" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="size" property="size" jdbcType="INTEGER" />
+    <result column="delFlag" property="delflag" jdbcType="TINYINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="createtime" property="createTimestamp" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updateTimestamp" jdbcType="TIMESTAMP" />
+    <result column="folder_id" property="folderId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 根据类型和需求id获取附件列表 -->
+  <select id="getAttachmentsByTypeAndOwnerId"
+  		parameterType="String"
+  		resultMap="BaseResultMap">
+		select * from common_attachment where owner_type=#{ownerType} and owner_id=#{ownerId}
+	</select>
+  
+</mapper>

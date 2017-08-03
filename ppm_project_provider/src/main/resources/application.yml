@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: ppm_project_provider
+  profiles:
+    active: @profileActive@
+
+mybatis:
+  #�޸�typeAliasesPackage
+  typeAliasesPackage: com.elead.ppm.project.domain
+  configLocation: classpath:mybatis-config.xml
+  mapperLocations: classpath:mybatis/*.xml
